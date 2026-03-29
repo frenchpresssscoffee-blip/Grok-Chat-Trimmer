@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Grok Chat Trimmer",
+  "version": "1.0.3",
+  "description": "Keeps Grok chat sessions responsive by trimming older messages from the live DOM.",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://grok.x.ai/*",
+        "*://x.com/grok*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
