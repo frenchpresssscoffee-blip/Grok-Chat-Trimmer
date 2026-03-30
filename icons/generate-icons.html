@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Icons</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    canvas { border: 1px solid #ccc; margin: 10px; }
+    .icon-container { display: inline-block; text-align: center; margin: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Speed Booster Icons</h1>
+  <p>Right-click each icon and save as PNG:</p>
+
+  <div class="icon-container">
+    <canvas id="canvas16" width="16" height="16"></canvas>
+    <div>16x16 (icon16.png)</div>
+  </div>
+
+  <div class="icon-container">
+    <canvas id="canvas32" width="32" height="32"></canvas>
+    <div>32x32 (icon32.png)</div>
+  </div>
+
+  <div class="icon-container">
+    <canvas id="canvas48" width="48" height="48"></canvas>
+    <div>48x48 (icon48.png)</div>
+  </div>
+
+  <div class="icon-container">
+    <canvas id="canvas128" width="128" height="128"></canvas>
+    <div>128x128 (icon128.png)</div>
+  </div>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      const center = size / 2;
+      const radius = size * 0.4;
+
+      // Background gradient
+      const bgGradient = ctx.createLinearGradient(0, 0, size, size);
+      bgGradient.addColorStop(0, '#1a1a2e');
+      bgGradient.addColorStop(1, '#0f0f1a');
+
+      ctx.fillStyle = bgGradient;
+      ctx.fillRect(0, 0, size, size);
+
+      // Border
+      ctx.strokeStyle = '#4ade80';
+      ctx.lineWidth = Math.max(1, size / 16);
+      ctx.strokeRect(0, 0, size, size);
+
+      // Lightning bolt
+      ctx.save();
+      ctx.translate(center, center);
+
+      // Glow effect
+      ctx.shadowColor = '#4ade80';
+      ctx.shadowBlur = size / 8;
+
+      // Lightning path
+      ctx.fillStyle = '#4ade80';
+      ctx.beginPath();
+
+      const scale = size / 128;
+      ctx.scale(scale, scale);
+
+      // Draw lightning bolt
+      ctx.moveTo(45, 10);
+      ctx.lineTo(75, 10);
+      ctx.lineTo(60, 50);
+      ctx.lineTo(90, 50);
+      ctx.lineTo(35, 118);
+      ctx.lineTo(50, 65);
+      ctx.lineTo(20, 65);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+
+      // Inner highlight
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(1, 1, size - 2, size - 2);
+    }
+
+    drawIcon(document.getElementById('canvas16'), 16);
+    drawIcon(document.getElementById('canvas32'), 32);
+    drawIcon(document.getElementById('canvas48'), 48);
+    drawIcon(document.getElementById('canvas128'), 128);
+
+    // Auto-download function for convenience
+    function downloadCanvas(canvas, filename) {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Add download buttons
+    const container = document.createElement('div');
+    container.style.marginTop = '20px';
+    container.innerHTML = '<button onclick="downloadAll()">Download All Icons</button>';
+    document.body.appendChild(container);
+
+    function downloadAll() {
+      downloadCanvas(document.getElementById('canvas16'), 'icon16.png');
+      setTimeout(() => downloadCanvas(document.getElementById('canvas32'), 'icon32.png'), 100);
+      setTimeout(() => downloadCanvas(document.getElementById('canvas48'), 'icon48.png'), 200);
+      setTimeout(() => downloadCanvas(document.getElementById('canvas128'), 'icon128.png'), 300);
+    }
+  </script>
+</body>
+</html>
